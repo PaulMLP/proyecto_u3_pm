@@ -25,38 +25,21 @@ public class ProyectoU3PmApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		
-		// Inner
-		LOG.info("********** INNER JOIN **********");
-		List<Hotel> listaHoteles = this.hotelService.buscarHotelInnerJoin("Familiar");
+
+		// Where
+		LOG.info("********** JOIN WHERE **********");
+		List<Hotel> listaHoteles = this.hotelService.buscarHotelWhereJoin("Matrimonial");
 		for (Hotel h : listaHoteles) {
 			LOG.info(h);
 		}
-		
-		LOG.info("********** INNER JOIN **********");
-		List<Hotel> listaHoteles2 = this.hotelService.buscarHotelInnerJoin();
+
+		// Inner Join Eager/ Lazy
+		LOG.info("********** INNER JOIN EAGER/LAZY **********");
+		List<Hotel> listaHoteles2 = this.hotelService.buscarHotelFetchJoin("Familiar");
 		for (Hotel h : listaHoteles2) {
 			LOG.info(h);
-		}
-		
-		// Right
-		LOG.info("********** RIGHT JOIN **********");
-		List<Hotel> listaHotelesRight = this.hotelService.buscarHotelOuterRightJoin("Familiar");
-		for (Hotel h : listaHotelesRight) {
-			LOG.info(h);
+			LOG.info("Habitaciones: "+h.getHabitaciones());
 		}
 
-		// Left
-		LOG.info("********** LEFT JOIN **********");
-		List<Hotel> listaHotelesLeft = this.hotelService.buscarHotelOuterLeftJoin("Familiar");
-		for (Hotel h : listaHotelesLeft) {
-			LOG.info(h);
-		}
-		
-		LOG.info("********** LEFT JOIN **********");
-		List<Hotel> listaHotelesLeft2 = this.hotelService.buscarHotelOuterLeftJoin();
-		for (Hotel h : listaHotelesLeft2) {
-			LOG.info(h);
-		}
 	}
 }

@@ -63,14 +63,24 @@ public class HotelRepositoryImpl implements IHotelRepository {
 
 	@Override
 	public List<Hotel> buscarHotelWhereJoin(String tipoHabitacion) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h, Habitacion ha WHERE h = ha.hotel AND ha.tipo = :tipoHabitacion", Hotel.class);
+		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
+		return myQuery.getResultList();
 	}
 
 	@Override
 	public List<Hotel> buscarHotelFetchJoin(String tipoHabitacion) {
-		// TODO Auto-generated method stub
-		return null;
+		TypedQuery<Hotel> myQuery = this.entityManager.createQuery(
+				"SELECT h FROM Hotel h JOIN FETCH h.habitaciones ha WHERE ha.tipo = :tipoHabitacion", Hotel.class);
+		myQuery.setParameter("tipoHabitacion", tipoHabitacion);
+		/*List<Hotel> hoteles = myQuery.getResultList();
+		for(Hotel h: hoteles) {
+			h.getHabitaciones().size();
+		}
+		return hoteles;
+		*/
+		return myQuery.getResultList();
 	}
 
 }
