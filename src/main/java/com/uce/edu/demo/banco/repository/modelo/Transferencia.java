@@ -77,5 +77,4 @@ public class Transferencia {
 	public void setCuentaDestino(CuentaBancaria cuentaDestino) {
 		this.cuentaDestino = cuentaDestino;
 	}
-
 }

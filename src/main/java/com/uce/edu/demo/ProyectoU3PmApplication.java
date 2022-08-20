@@ -25,6 +25,6 @@ public class ProyectoU3PmApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		this.transferenciaService.realizarTransferencia("1010", "2020", new BigDecimal(20));
+		this.transferenciaService.realizarTransferencia("2020", "3030", new BigDecimal(20));
 	}
 }

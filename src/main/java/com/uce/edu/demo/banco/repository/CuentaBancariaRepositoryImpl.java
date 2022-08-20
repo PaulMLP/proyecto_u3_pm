@@ -22,7 +22,7 @@ public class CuentaBancariaRepositoryImpl implements ICuentaBancariaRepository {
 	private EntityManager entityManager;
 
 	@Override
-	@Transactional(value = TxType.MANDATORY)
+	@Transactional(value = TxType.REQUIRES_NEW)
 	public void actualizar(CuentaBancaria cuentaBancaria) {
 		LOG.info("Actualizacion de Cuenta Bancaria");
 		LOG.info("Transaccion activa repository: " + TransactionSynchronizationManager.isActualTransactionActive());
