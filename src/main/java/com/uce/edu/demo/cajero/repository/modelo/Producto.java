@@ -27,8 +27,21 @@ public class Producto {
 	@Column(name = "prod_precio")
 	private BigDecimal precio;
 
+	@Column(name = "prod_codigo_barras")
+	private String codigoBarras;
+
+	@Column(name = "prod_cantidad")
+	private Integer cantidad;
+
 	@OneToMany(mappedBy = "producto")
 	private List<DetalleFactura> detalles;
+
+	
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", codigoBarras=" + codigoBarras
+				+ ", cantidad=" + cantidad +"]";
+	}
 
 	// SET y GET
 	public Integer getId() {
@@ -53,6 +66,22 @@ public class Producto {
 
 	public void setPrecio(BigDecimal precio) {
 		this.precio = precio;
+	}
+
+	public String getCodigoBarras() {
+		return codigoBarras;
+	}
+
+	public void setCodigoBarras(String codigoBarras) {
+		this.codigoBarras = codigoBarras;
+	}
+
+	public Integer getCantidad() {
+		return cantidad;
+	}
+
+	public void setCantidad(Integer cantidad) {
+		this.cantidad = cantidad;
 	}
 
 	public List<DetalleFactura> getDetalles() {

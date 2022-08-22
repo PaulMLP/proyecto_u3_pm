@@ -1,6 +1,7 @@
 package com.uce.edu.demo;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.uce.edu.demo.banco.service.ITransferenciaService;
+import com.uce.edu.demo.cajero.service.IFacturaService;
 
 @SpringBootApplication
 public class ProyectoU3PmApplication implements CommandLineRunner {
@@ -16,7 +17,7 @@ public class ProyectoU3PmApplication implements CommandLineRunner {
 	private static Logger LOG = Logger.getLogger(ProyectoU3PmApplication.class);
 
 	@Autowired
-	private ITransferenciaService transferenciaService;
+	private IFacturaService facturaService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU3PmApplication.class, args);
@@ -24,7 +25,14 @@ public class ProyectoU3PmApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+
+		List<String> listaCodigos = new ArrayList<String>();
+		listaCodigos.add("1234");
+		listaCodigos.add("1122");
+		listaCodigos.add("4321");
+		listaCodigos.add("1111");
 		
-		this.transferenciaService.realizarTransferencia("2020", "3030", new BigDecimal(20));
+		LOG.info("Se compra los productos");
+		this.facturaService.compraProductos("1728189521", "1234", listaCodigos);
 	}
 }

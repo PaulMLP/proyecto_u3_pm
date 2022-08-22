@@ -2,14 +2,14 @@ package com.uce.edu.demo.cajero.repository.modelo;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,16 +23,12 @@ public class Cliente {
 	@SequenceGenerator(name = "clie_seq_id", sequenceName = "clie_seq_id", allocationSize = 1)
 	private Integer id;
 
-	@Column(name = "clie_numero_tarjeta")
-	private String numeroTarjeta;
+	@Column(name = "clie_numero_cedula")
+	private String numeroCedula;
 
-	@OneToOne
-	@JoinColumn(name = "clie_ciud_id")
-	private Ciudadano ciudadano;
-
-	@OneToMany(mappedBy = "cliente")
+	@OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Factura> facturas;
-	
+
 	// SET y GET
 	public Integer getId() {
 		return id;
@@ -42,20 +38,12 @@ public class Cliente {
 		this.id = id;
 	}
 
-	public String getNumeroTarjeta() {
-		return numeroTarjeta;
+	public String getNumeroCedula() {
+		return numeroCedula;
 	}
 
-	public void setNumeroTarjeta(String numeroTarjeta) {
-		this.numeroTarjeta = numeroTarjeta;
-	}
-
-	public Ciudadano getCiudadano() {
-		return ciudadano;
-	}
-
-	public void setCiudadano(Ciudadano ciudadano) {
-		this.ciudadano = ciudadano;
+	public void setNumeroCedula(String numeroCedula) {
+		this.numeroCedula = numeroCedula;
 	}
 
 	public List<Factura> getFacturas() {
