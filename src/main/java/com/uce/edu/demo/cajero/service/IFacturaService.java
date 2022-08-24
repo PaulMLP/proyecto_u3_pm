@@ -1,9 +1,9 @@
 package com.uce.edu.demo.cajero.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface IFacturaService {
 
-	public void compraProductos(String cedulaCliente, String numeroFactura, List<String> codigos);
-
+	public BigDecimal procesarFactura(String cedulaCliente, String numeroFactura, List<String> codigos);
 }

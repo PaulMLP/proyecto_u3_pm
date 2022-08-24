@@ -3,6 +3,7 @@ package com.uce.edu.demo.cajero.repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import javax.transaction.Transactional.TxType;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +17,7 @@ public class DetalleFacturaRepoImpl implements IDetalleFacturaRepo {
 	private EntityManager entityManager;
 	
 	@Override
+	@Transactional(value = TxType.MANDATORY)
 	public void insertar(DetalleFactura detalleFactura) {
 		this.entityManager.persist(detalleFactura);
 	}

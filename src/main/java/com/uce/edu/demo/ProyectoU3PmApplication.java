@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.uce.edu.demo.cajero.service.IFacturaService;
+import com.uce.edu.demo.cajero.service.IGestorCompraService;
 
 @SpringBootApplication
 public class ProyectoU3PmApplication implements CommandLineRunner {
@@ -17,7 +17,7 @@ public class ProyectoU3PmApplication implements CommandLineRunner {
 	private static Logger LOG = Logger.getLogger(ProyectoU3PmApplication.class);
 
 	@Autowired
-	private IFacturaService facturaService;
+	private IGestorCompraService gestorCompraService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProyectoU3PmApplication.class, args);
@@ -33,6 +33,6 @@ public class ProyectoU3PmApplication implements CommandLineRunner {
 		listaCodigos.add("1111");
 		
 		LOG.info("Se compra los productos");
-		this.facturaService.compraProductos("1728189521", "1234", listaCodigos);
+		this.gestorCompraService.compraProductos("1728189521", "1234", listaCodigos);
 	}
 }

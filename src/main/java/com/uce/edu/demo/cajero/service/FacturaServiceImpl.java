@@ -12,13 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uce.edu.demo.cajero.repository.IClienteRepository;
-import com.uce.edu.demo.cajero.repository.IFacturaElectronicaRepository;
 import com.uce.edu.demo.cajero.repository.IFacturaRepository;
 import com.uce.edu.demo.cajero.repository.IProductoRepository;
 import com.uce.edu.demo.cajero.repository.modelo.Cliente;
 import com.uce.edu.demo.cajero.repository.modelo.DetalleFactura;
 import com.uce.edu.demo.cajero.repository.modelo.Factura;
-import com.uce.edu.demo.cajero.repository.modelo.FacturaElectronica;
 import com.uce.edu.demo.cajero.repository.modelo.Producto;
 
 @Service
@@ -33,15 +31,9 @@ public class FacturaServiceImpl implements IFacturaService {
 	@Autowired
 	private IProductoRepository productoRepository;
 
-	@Autowired
-	private IProductoService productoService;
-
-	@Autowired
-	private IFacturaElectronicaRepository facturaElectronicaRepository;
-
 	@Override
-	@Transactional(value = TxType.REQUIRED)
-	public void compraProductos(String cedulaCliente, String numeroFactura, List<String> codigos) {
+	@Transactional(value = TxType.REQUIRES_NEW)
+	public BigDecimal procesarFactura(String cedulaCliente, String numeroFactura, List<String> codigos) {
 		Cliente cliente = this.clienteRepository.buscar(cedulaCliente);
 
 		Factura factura = new Factura();
@@ -49,7 +41,7 @@ public class FacturaServiceImpl implements IFacturaService {
 		factura.setCliente(cliente);
 		factura.setFecha(LocalDateTime.now());
 
-		BigDecimal monto = new BigDecimal(0);
+		BigDecimal monto = BigDecimal.ZERO;
 
 		DetalleFactura detalle = new DetalleFactura();
 
@@ -62,28 +54,17 @@ public class FacturaServiceImpl implements IFacturaService {
 			detalle.setCantidad(1);
 			detalle.setSubtotal(p.getPrecio());
 			monto = monto.add(p.getPrecio());
+			p.setCantidad(p.getCantidad()-1);
+			this.productoRepository.actualizar(p);
 			listaDetalles.add(detalle);
 			listaProductos.add(p);
 		}
 
 		factura.setDetalles(listaDetalles);
 		factura.setMonto(monto);
-		
-		// 1. Crear una Factura con los Detalles
+
 		this.facturaRepository.insertar(factura);
-		
-		// 2. Actualizar el stock del Producto
-		this.productoService.actualizarStock(listaProductos);
-		
-		// 3. Insertar la factura electrónica
-		FacturaElectronica facturaElectronica = new FacturaElectronica();
-		facturaElectronica.setNumero(numeroFactura);
-		facturaElectronica.setFecha(LocalDateTime.now());
-		facturaElectronica.setMonto(monto);
-		facturaElectronica.setNumeroItems(listaDetalles.size());
-
-		this.facturaElectronicaRepository.insertar(facturaElectronica);
-
+		return monto;
 	}
 
 }
