@@ -17,4 +17,5 @@ public class ConsumoMetodosHighOrder {
 	public String consumirFunction(IPersonaFunction<String, Integer> funcion, Integer valor) {
 		return funcion.apply(valor);
 	}
+
 }

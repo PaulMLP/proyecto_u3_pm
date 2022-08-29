@@ -36,11 +36,10 @@ public class Producto {
 	@OneToMany(mappedBy = "producto")
 	private List<DetalleFactura> detalles;
 
-	
 	@Override
 	public String toString() {
 		return "Producto [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", codigoBarras=" + codigoBarras
-				+ ", cantidad=" + cantidad +"]";
+				+ ", cantidad=" + cantidad + "]";
 	}
 
 	// SET y GET
