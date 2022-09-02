@@ -1,5 +1,8 @@
 package com.uce.edu.demo.cajero.service.funcional;
 
+import java.util.Random;
+import java.util.stream.Stream;
+
 import org.apache.log4j.Logger;
 
 public class MainInterfacesFuncionales {
@@ -8,64 +11,29 @@ public class MainInterfacesFuncionales {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 
-		ConsumoMetodosHighOrder metodosHO = new ConsumoMetodosHighOrder();
+		String[] lista = { "Ana", "Juan", "Pedro", "Luis", "Paul", "Jorge", "Diana", "Carmen", "Rosa", "Maria", "Juana",
+				"Isabel", "Marco" };
+
+		Stream<String> streamLista = Stream.of(lista);
+
 		// SUPPLIER
-		// Lambdas
-		IFacturaSupplier<String> supplierLambda = () -> "Paúl";
-		LOG.info("Supplier Lambda: " + supplierLambda.getNombre());
-
-		// Metodos High Order
-		String valorHO = metodosHO.consumirSupplier(() -> "Hola Mundo");
-		LOG.info("HO Supplier: " + valorHO);
-
-		// CONSUMER
-		// Lambdas
-		IFacturaConsumer<String> consumerLambda = cadena -> LOG.info(cadena);
-		consumerLambda.accept("Prueba Consumer Lambda");
-
-		// Metodos High Order
-		metodosHO.consumirConsumer(valor -> System.out.println(valor), 2);
-
-		// PREDICATE
-		// Lambdas
-		IFacturaPredicate<String> predicateLambda = cadena -> cadena.contains("ñ");
-		LOG.info("Predicate Lambdas: " + predicateLambda.evaluar("Paul"));
-
-		// Metodos High Order
-		boolean respuesta = metodosHO.consumirPredicate(cadena -> cadena.contains("ñ"), "Paul");
-		LOG.info("HO Predicate: " + respuesta);
+		Stream.generate(new Random()::nextInt).limit(10).forEach(System.out::println);
 
 		// FUNCTION
-		// Lambdas
-		IFacturaFunction<Integer, String> functionLambda = cadena -> {
-			Integer valor = Integer.parseInt(cadena);
-			Integer valorFinal = valor - 2;
-			return valorFinal;
-		};
-		LOG.info("Function Lambdas: " + functionLambda.apply("100"));
+		Stream<String> listaMinuscula = streamLista.map(palabra -> {
+			String minuscula = palabra.toLowerCase();
+			return minuscula;
+		});
 
-		// Metodos High Order
-		String valorFin = metodosHO.consumirFunction(valor -> {
-			String retorno = valor.toString() + "Cadena Aumentada";
-			return retorno;
-		}, 1);
-		LOG.info("HO Function: " + valorFin);
+		// CONSUMER
+		listaMinuscula.forEach(minuscula -> {
+			LOG.info("Nombre: " + minuscula);
+		});
 
-		// UNARY OPERATOR (Function)
-		// Lambdas
-		IFacturaFunctionUnaryOperator<String> unaryLambda = cade -> {
-			String valorFinal = cade.concat("s");
-			return valorFinal;
-		};
-		LOG.info("Unary Operator Lambdas: " + unaryLambda.apply("palabra"));
+		Stream<String> streamLista2 = Stream.of(lista);
 
-		// Metodos High Order
-		metodosHO.consumirFunctionUnaryOperator(valor -> {
-			Integer retorno = valor * 100;
-			return retorno;
-		}, 1);
-		LOG.info("HO Function: " + valorFin);
-
+		// PREDICATE
+		streamLista2.filter(nombre -> nombre.startsWith("J")).forEach(System.out::println);
 	}
 
 }
